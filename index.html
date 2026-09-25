@@ -8,34 +8,18 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
     :root{
-        --bg:#0a0b0f;
-        --bg-2:#0f1116;
-        --surface:#14161c;
-        --surface-2:#1a1d24;
-        --card:#171920;
-        --border:rgba(255,255,255,.06);
-        --border-2:rgba(255,255,255,.09);
-        --text:#f2f3f5;
-        --muted:#8a8f9a;
-        --muted-2:#626772;
-        --accent:#7c8aff;
-        --accent-2:#a78bfa;
-        --green:#3ddc84;
-        --orange:#ffa94d;
-        --red:#ff6b6b;
-        --ease:cubic-bezier(.22,1,.36,1);
-        --spring:cubic-bezier(.34,1.56,.64,1);
-        --shadow-sm:0 1px 2px rgba(0,0,0,.25);
-        --shadow-md:0 4px 14px rgba(0,0,0,.3);
-        --shadow-lg:0 12px 40px rgba(0,0,0,.45);
+        --bg:#0a0b0f;--bg-2:#0f1116;--surface:#14161c;--surface-2:#1a1d24;
+        --card:#171920;--border:rgba(255,255,255,.06);--border-2:rgba(255,255,255,.09);
+        --text:#f2f3f5;--muted:#8a8f9a;--muted-2:#626772;
+        --accent:#7c8aff;--accent-2:#a78bfa;--green:#3ddc84;--orange:#ffa94d;--red:#ff6b6b;
+        --ease:cubic-bezier(.22,1,.36,1);--spring:cubic-bezier(.34,1.56,.64,1);
+        --shadow-sm:0 1px 2px rgba(0,0,0,.25);--shadow-md:0 4px 14px rgba(0,0,0,.3);--shadow-lg:0 12px 40px rgba(0,0,0,.45);
     }
     body.light-theme{
-        --bg:#f6f7f9;--bg-2:#ffffff;--surface:#ffffff;--surface-2:#f0f1f4;
-        --card:#ffffff;--border:rgba(0,0,0,.07);--border-2:rgba(0,0,0,.1);
+        --bg:#f6f7f9;--bg-2:#ffffff;--surface:#ffffff;--surface-2:#f0f1f4;--card:#ffffff;
+        --border:rgba(0,0,0,.07);--border-2:rgba(0,0,0,.1);
         --text:#0f1115;--muted:#6b7280;--muted-2:#9aa0aa;
-        --shadow-sm:0 1px 2px rgba(0,0,0,.05);
-        --shadow-md:0 4px 14px rgba(0,0,0,.06);
-        --shadow-lg:0 12px 40px rgba(0,0,0,.1);
+        --shadow-sm:0 1px 2px rgba(0,0,0,.05);--shadow-md:0 4px 14px rgba(0,0,0,.06);--shadow-lg:0 12px 40px rgba(0,0,0,.1);
     }
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;-webkit-tap-highlight-color:transparent}
     html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text)}
@@ -45,20 +29,12 @@
     ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:3px}
     ::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.14)}
     body.light-theme ::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1)}
-    *{scrollbar-width:thin;scrollbar-color:rgba(128,128,128,.3) transparent}
 
-    .screen{position:fixed;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;background:var(--bg);opacity:0;visibility:hidden;transform:translateY(20px);transition:opacity .55s var(--ease),transform .55s var(--ease),visibility 0s linear .55s;overflow:hidden}
-    .screen.active{opacity:1;visibility:visible;transform:none;transition:opacity .55s var(--ease),transform .55s var(--ease);z-index:5}
-    .stars-container{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
-    .star{position:absolute;background:#fff;clip-path:polygon(50% 0%,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0% 50%,40% 40%);animation:twinkle var(--duration) ease-in-out infinite alternate;opacity:0}
-    @keyframes twinkle{0%{opacity:.05;transform:scale(.8)}100%{opacity:.5;transform:scale(1.15)}}
-    .anim{opacity:0;position:relative;z-index:1}
-    .screen.active .anim{animation:fadeUp .7s var(--ease) forwards;animation-delay:var(--d,0s)}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
     @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+    @keyframes pulseText{0%,100%{opacity:.35}50%{opacity:1}}
     @keyframes shake{0%,25%{transform:translateX(-7px)}75%,100%{transform:translateX(7px)}}
-    .shake{animation:shake .4s ease}
     @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
     @keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
     @keyframes menuIn{from{opacity:0;transform:scale(.94) translateY(-6px)}to{opacity:1;transform:none}}
     @keyframes bubbleIn{from{opacity:0;transform:translateY(8px) scale(.96)}to{opacity:1;transform:none}}
@@ -70,6 +46,17 @@
     @keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
     @keyframes skelFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
     @keyframes onlinePulse{0%,100%{box-shadow:0 0 0 0 rgba(61,220,132,.5)}50%{box-shadow:0 0 0 4px rgba(61,220,132,0)}}
+    @keyframes charPulse{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:1;transform:translateY(-1px)}}
+    @keyframes dotFade{0%,100%{opacity:.2}50%{opacity:1}}
+
+    .screen{position:fixed;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;background:var(--bg);opacity:0;visibility:hidden;transform:translateY(20px);transition:opacity .55s var(--ease),transform .55s var(--ease),visibility 0s linear .55s;overflow:hidden}
+    .screen.active{opacity:1;visibility:visible;transform:none;transition:opacity .55s var(--ease),transform .55s var(--ease);z-index:5}
+    .stars-container{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+    .star{position:absolute;background:#fff;clip-path:polygon(50% 0%,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0% 50%,40% 40%);animation:twinkle var(--duration) ease-in-out infinite alternate;opacity:0}
+    @keyframes twinkle{0%{opacity:.05;transform:scale(.8)}100%{opacity:.5;transform:scale(1.15)}}
+    .anim{opacity:0;position:relative;z-index:1}
+    .screen.active .anim{animation:fadeUp .7s var(--ease) forwards;animation-delay:var(--d,0s)}
+    .shake{animation:shake .4s ease}
 
     #screen-loading{z-index:100}
     #screen-loading.active{opacity:1;visibility:visible;transform:none;transition:none}
@@ -136,20 +123,30 @@
     input::placeholder,textarea::placeholder{color:var(--muted-2);font-weight:400}
     input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,138,255,.15)}
 
-    #screen-messenger{flex-direction:row;justify-content:stretch;align-items:stretch}
+    #screen-messenger{flex-direction:row;justify-content:stretch;align-items:stretch;overflow:hidden}
     .rail{width:68px;background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding-top:24px;gap:12px;z-index:2;flex-shrink:0}
     .logo-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);margin-bottom:16px;animation:pulse 2.4s infinite;box-shadow:0 0 12px var(--accent)}
     .nav-icon{width:42px;height:42px;border-radius:12px;cursor:pointer;display:flex;justify-content:center;align-items:center;color:var(--muted);transition:all .25s var(--ease);position:relative}
     .nav-icon svg{width:19px;height:19px;fill:currentColor}
     .nav-icon:hover{color:var(--text);background:var(--surface-2)}
     .nav-icon.active{color:var(--text);background:var(--surface-2)}
-    .main{flex:1;position:relative;background:var(--bg);display:flex;min-width:0}
+    .main{flex:1;position:relative;background:var(--bg);display:flex;min-width:0;overflow:hidden}
     .view{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;visibility:hidden;transform:translateX(16px);transition:opacity .35s var(--ease),transform .35s var(--ease),visibility 0s linear .35s}
     .view.active{opacity:1;visibility:visible;transform:none;transition:opacity .35s var(--ease),transform .35s var(--ease)}
     #view-chats{flex-direction:row}
-    .list-panel{width:308px;border-right:1px solid var(--border);display:flex;flex-direction:column;background:var(--bg);flex-shrink:0}
+    .list-panel{width:308px;border-right:1px solid var(--border);display:flex;flex-direction:column;background:var(--bg);flex-shrink:0;position:relative}
     .panel-header{padding:22px 18px 10px;font-weight:700;font-size:17px;flex-shrink:0;display:flex;align-items:center;gap:8px}
-    .panel-header .status-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:onlinePulse 2s infinite}
+    .panel-header .status-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:onlinePulse 2s infinite;flex-shrink:0}
+    .panel-header .status-dot.connecting{background:var(--orange);animation:pulse 1.2s infinite}
+
+    /* Анимированный текст "Соединение" */
+    .conn-text{display:inline-flex;align-items:center;gap:1px;font-weight:700;letter-spacing:1px;font-size:14px;text-transform:none}
+    .conn-text .ch{display:inline-block;animation:charPulse 1.4s ease-in-out infinite}
+    .conn-text .dots{margin-left:2px}
+    .conn-text .dots span{display:inline-block;animation:dotFade 1.2s ease-in-out infinite}
+    .conn-text .dots span:nth-child(2){animation-delay:.2s}
+    .conn-text .dots span:nth-child(3){animation-delay:.4s}
+
     .search-wrap{padding:0 14px 12px;flex-shrink:0;position:relative}
     .search-wrap input{background:var(--surface-2);color:var(--text);border:1px solid transparent;border-radius:11px;padding:10px 14px 10px 36px;font-size:13px;font-weight:500;transition:border-color .2s,background .2s}
     .search-wrap input:focus{border-color:var(--accent);box-shadow:none}
@@ -198,7 +195,6 @@
     .search-meta{display:flex;align-items:center;justify-content:space-between;margin-top:8px;font-size:11.5px;color:var(--muted)}
     .search-nav{display:flex;gap:4px}
     .search-nav button{width:26px;height:26px;border-radius:50%;border:none;background:var(--surface-2);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center}
-    .search-nav button:hover{background:var(--border-2)}
     .search-nav button svg{width:13px;height:13px;fill:currentColor}
     .search-results-list{max-height:180px;overflow-y:auto;margin-top:6px}
     .search-result-item{padding:7px 11px;border-radius:7px;cursor:pointer;font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -231,6 +227,9 @@
     .typing-dot{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:typingBounce 1.4s infinite ease-in-out}
     .typing-dot:nth-child(2){animation-delay:.2s}
     .typing-dot:nth-child(3){animation-delay:.4s}
+
+    .blocked-banner{display:flex;align-items:center;gap:8px;padding:12px 16px;margin:12px 22px 0;background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.25);border-radius:12px;color:var(--red);font-size:13px;font-weight:500}
+    .blocked-banner svg{width:16px;height:16px;fill:currentColor;flex-shrink:0}
 
     .reply-preview,.edit-preview{display:flex;align-items:center;gap:10px;padding:9px 12px;margin-bottom:8px;border-left:3px solid var(--accent);border-radius:9px;background:var(--surface-2);animation:fadeIn .2s var(--ease)}
     .edit-preview{border-left-color:var(--green)}
@@ -278,17 +277,22 @@
     .unified-header .header-actions{display:flex;gap:2px}
     .settings-view{padding:20px 20px 90px;overflow-y:auto;display:flex;flex-direction:column;align-items:center}
     .settings-container{width:min(560px,100%)}
-    .profile-card{display:flex;align-items:center;gap:14px;padding:16px;background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:14px;cursor:pointer;transition:transform .2s var(--ease),border-color .2s;position:relative;overflow:hidden}
-    .profile-card:hover{border-color:var(--border-2);transform:translateY(-1px)}
+    .profile-card{display:flex;align-items:center;gap:14px;padding:16px;background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:14px;position:relative;overflow:hidden}
     .profile-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--profile-bg,rgba(124,138,255,.08)),transparent 55%);opacity:.55;pointer-events:none;border-radius:16px}
-    .profile-card-avatar{position:relative;flex-shrink:0;z-index:1}
-    .profile-card-avatar .avatar{width:64px;height:64px;border:2px solid rgba(255,255,255,.08)}
+    .profile-card-avatar{position:relative;flex-shrink:0;z-index:1;cursor:pointer}
+    .profile-card-avatar .avatar{width:64px;height:64px;border:2px solid rgba(255,255,255,.08);cursor:pointer;transition:transform .2s var(--spring)}
+    .profile-card-avatar .avatar:hover{transform:scale(1.05)}
+    .profile-card-avatar .avatar:hover::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.4);border-radius:50%;display:flex;align-items:center;justify-content:center}
     body.light-theme .profile-card-avatar .avatar{border-color:rgba(0,0,0,.06)}
     .profile-card-avatar .avatar span{font-size:22px}
+    .profile-card-avatar .avatar-cam{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.5);border-radius:50%;opacity:0;transition:opacity .2s;pointer-events:none}
+    .profile-card-avatar:hover .avatar-cam{opacity:1}
+    .profile-card-avatar .avatar-cam svg{width:20px;height:20px;fill:#fff}
     .profile-card-info{flex:1;min-width:0;position:relative;z-index:1}
     .profile-card-info .pc-name{font-size:16px;font-weight:700;display:flex;align-items:center;gap:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .profile-card-info .pc-username{font-size:13px;color:var(--muted);margin-top:2px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .profile-card-edit{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;color:var(--muted);position:relative;z-index:1}
+    .profile-card-edit{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;color:var(--muted);position:relative;z-index:1;cursor:pointer;transition:transform .2s}
+    .profile-card-edit:hover{transform:scale(1.08)}
     body.light-theme .profile-card-edit{background:rgba(0,0,0,.05)}
     .profile-card-edit svg{width:14px;height:14px;fill:currentColor}
 
@@ -412,8 +416,8 @@
     #toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--card);color:var(--text);padding:11px 20px;border-radius:22px;font-size:13px;font-weight:600;opacity:0;transition:all .3s var(--ease);z-index:1000;pointer-events:none;max-width:90vw;text-align:center;box-shadow:var(--shadow-lg);border:1px solid var(--border-2)}
     #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-    .mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(10,11,15,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);z-index:10;padding:6px 0 env(safe-area-inset-bottom);transition:transform .3s var(--ease)}
-    body.light-theme .mobile-nav{background:rgba(255,255,255,.85)}
+    .mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(10,11,15,.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);z-index:30;padding:6px 0 env(safe-area-inset-bottom);transition:transform .3s var(--ease)}
+    body.light-theme .mobile-nav{background:rgba(255,255,255,.9)}
     .mobile-nav.hidden-nav{transform:translateY(110%)}
     .mobile-nav .nav-icon{flex:1;border-radius:0;height:50px;color:var(--muted)}
     .mobile-nav .nav-icon.active{color:var(--text);background:transparent}
@@ -422,11 +426,22 @@
     @media (max-width:768px){
         .rail{display:none}
         #screen-messenger{flex-direction:column}
-        .main{flex-direction:column}
-        #view-chats{flex-direction:column}
-        .list-panel{width:100%;border-right:none;position:absolute;inset:0;z-index:3}
-        .chat-area{position:absolute;inset:0;z-index:4;transform:translateX(100%);transition:transform .3s var(--ease);padding-bottom:0}
-        #view-chats.chat-open .list-panel{transform:translateX(-25%);opacity:.4}
+        .main{flex-direction:column;overflow:hidden}
+        #view-chats{flex-direction:column;position:relative;overflow:hidden}
+        .list-panel{
+            width:100%;border-right:none;
+            position:absolute;inset:0;z-index:3;
+            padding-bottom:60px;
+            transition:transform .3s var(--ease),opacity .3s var(--ease);
+        }
+        .chat-area{
+            position:absolute;inset:0;z-index:4;
+            transform:translateX(100%);
+            transition:transform .3s var(--ease);
+            padding-bottom:0;
+            background:var(--bg);
+        }
+        #view-chats.chat-open .list-panel{transform:translateX(-25%);opacity:.3;pointer-events:none}
         #view-chats.chat-open .chat-area{transform:translateX(0)}
         .back-mobile{display:flex}
         .chat-header{padding:10px 14px}
@@ -436,10 +451,7 @@
         .settings-view{padding:14px 12px 90px}
         .modal-card,.confirm-card,.color-card{width:92vw;border-radius:18px}
         .mobile-nav{display:flex}
-        .view{padding-bottom:60px}
-        #view-chats{padding-bottom:0}
-        #view-chats .list-panel{padding-bottom:60px}
-        .search-panel{top:auto;position:fixed;bottom:74px;left:12px;right:12px;border-radius:12px;border:1px solid var(--border-2);box-shadow:var(--shadow-lg)}
+        .search-panel{top:auto;position:fixed;bottom:74px;left:12px;right:12px;border-radius:12px;border:1px solid var(--border-2);box-shadow:var(--shadow-lg);z-index:40}
         .auth-card{padding:20px 16px 16px}
         .profile-card{padding:14px}
         .profile-card-avatar .avatar{width:56px;height:56px}
@@ -523,7 +535,9 @@
     <div class="main">
         <div class="view active" id="view-chats">
             <div class="list-panel">
-                <div class="panel-header">Atmosphere<span class="status-dot"></span></div>
+                <div class="panel-header" id="panel-header">
+                    <span id="panel-title">Atmosphere</span><span class="status-dot" id="panel-status-dot"></span>
+                </div>
                 <div class="search-wrap"><input type="text" id="search-input" placeholder="Поиск людей..."></div>
                 <div id="search-results" class="hidden"></div>
                 <div id="chat-list"></div>
@@ -533,7 +547,7 @@
                     <div class="saturn-container"><div class="saturn-core"></div><div class="saturn-ring"></div></div>
                     <div class="placeholder-text"><strong>Выберите чат</strong>Сообщения защищены end-to-end шифрованием</div>
                 </div>
-                <div id="chat-active" class="hidden" style="flex:1;display:flex;flex-direction:column">
+                <div id="chat-active" class="hidden" style="flex:1;display:flex;flex-direction:column;min-height:0">
                     <div class="chat-header" id="chat-header">
                         <button class="back-mobile" id="back-mobile"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
                         <div class="ci-avatar" id="chat-avatar"></div>
@@ -593,16 +607,17 @@
             <div class="settings-view">
                 <div class="settings-container">
                     <div class="profile-card" id="profile-card">
-                        <div class="profile-card-avatar">
+                        <div class="profile-card-avatar" id="profile-avatar-trigger">
                             <div class="avatar" id="acc-avatar-circle" style="position:relative;overflow:hidden">
                                 <img id="acc-avatar-img"><span>+</span>
                             </div>
+                            <div class="avatar-cam"><svg viewBox="0 0 24 24"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg></div>
                         </div>
                         <div class="profile-card-info">
                             <div class="pc-name" id="display-name">Пользователь</div>
                             <div class="pc-username" id="display-username">@user</div>
                         </div>
-                        <div class="profile-card-edit"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></div>
+                        <div class="profile-card-edit" id="profile-card-edit" title="Изменить имя"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></div>
                     </div>
                     <input type="file" id="fileInputAcc" accept="image/*" style="display:none">
 
@@ -949,8 +964,39 @@ createStars('stars-loading',50);createStars('stars-auth',60);createStars('stars-
 function applyTheme(theme){document.body.classList.remove('light-theme');if(theme==='light')document.body.classList.add('light-theme');currentTheme=theme;localStorage.setItem('atm_theme',theme);document.querySelectorAll('.theme-opt').forEach(b=>b.classList.toggle('active',b.dataset.theme===theme));}
 function setTheme(theme){applyTheme(theme);toast('Тема: '+({dark:'Тёмная',light:'Светлая'}[theme]));}
 
+// === Анимированный текст "Соединение..." в panel-header ===
+let connectionTimer=null;
+function setConnectionState(state){
+    const titleEl=$('panel-title');
+    const dot=$('panel-status-dot');
+    if(!titleEl) return;
+    if(state==='loading'){
+        if(dot) dot.classList.add('connecting');
+        const word='Соединение';
+        let html='<span class="conn-text">';
+        for(let i=0;i<word.length;i++){
+            html+='<span class="ch" style="animation-delay:'+(i*0.08)+'s">'+word[i]+'</span>';
+        }
+        html+='<span class="dots"><span>.</span><span>.</span><span>.</span></span></span>';
+        titleEl.innerHTML=html;
+    } else {
+        if(dot) dot.classList.remove('connecting');
+        titleEl.textContent='Atmosphere';
+    }
+}
+
 async function idbGet(k){return new Promise(r=>{const q=indexedDB.open('atm_e2e',1);q.onupgradeneeded=()=>{if(!q.result.objectStoreNames.contains('keys'))q.result.createObjectStore('keys')};q.onsuccess=()=>{const tx=q.result.transaction('keys','readonly');const g=tx.objectStore('keys').get(k);g.onsuccess=()=>r(g.result||null);g.onerror=()=>r(null)};q.onerror=()=>r(null)})}
 async function idbSet(k,v){return new Promise(r=>{const q=indexedDB.open('atm_e2e',1);q.onupgradeneeded=()=>{if(!q.result.objectStoreNames.contains('keys'))q.result.createObjectStore('keys')};q.onsuccess=()=>{const tx=q.result.transaction('keys','readwrite');tx.objectStore('keys').put(v,k);tx.oncomplete=()=>r(true);tx.onerror=()=>r(false)};q.onerror=()=>r(false)})}
+async function idbDel(k){return new Promise(r=>{const q=indexedDB.open('atm_e2e',1);q.onupgradeneeded=()=>{if(!q.result.objectStoreNames.contains('keys'))q.result.createObjectStore('keys')};q.onsuccess=()=>{const tx=q.result.transaction('keys','readwrite');tx.objectStore('keys').delete(k);tx.oncomplete=()=>r(true);tx.onerror=()=>r(false)};q.onerror=()=>r(false)})}
+
+// Проверяет, соответствует ли приватный ключ публичному
+async function keysMatch(privKey,pubJwk){
+    if(!privKey||!pubJwk) return false;
+    try{
+        const exported=await crypto.subtle.exportKey('jwk',privKey.publicKey);
+        return exported.x===pubJwk.x && exported.y===pubJwk.y;
+    }catch(e){ return false; }
+}
 
 async function ensureE2EKeys(){
     if(!me) return false;
@@ -960,40 +1006,57 @@ async function ensureE2EKeys(){
         pubJwk=await idbGet('pub_'+me.id);
     }catch(e){ console.warn('idb read failed',e); }
 
+    // Проверяем, что приватный и публичный ключи соответствуют друг другу
+    let localPairValid=false;
+    if(privKey && pubJwk){
+        localPairValid=await keysMatch(privKey,pubJwk);
+        if(!localPairValid){
+            console.warn('⚠️ Локальная пара ключей не совпадает, удаляю');
+            await idbDel('priv_'+me.id);
+            await idbDel('pub_'+me.id);
+            privKey=null;pubJwk=null;
+        }
+    }
+
+    // Проверяем валидность ключа в БД
     let dbKeyValid=false;
     if(me.public_key){
         try{
             const parsed=JSON.parse(me.public_key);
             if(parsed && parsed.kty==='EC' && parsed.crv==='P-256' && parsed.x && parsed.y && parsed.x.length>20){
                 dbKeyValid=true;
-            } else {
-                console.warn('⚠️ DB key invalid, will regenerate');
-                me.public_key=null;
-            }
-        }catch(e){
-            console.warn('⚠️ DB key not JSON, will regenerate');
-            me.public_key=null;
-        }
+            } else { me.public_key=null; }
+        }catch(e){ me.public_key=null; }
     }
 
-    if(privKey && pubJwk && dbKeyValid){
-        console.log('✅ E2E: ключи в порядке');
-        return true;
+    // Если локальная пара валидна и в БД такой же ключ — всё ок
+    if(localPairValid && pubJwk && dbKeyValid){
+        try{
+            const dbPub=JSON.parse(me.public_key);
+            if(dbPub.x===pubJwk.x && dbPub.y===pubJwk.y){
+                console.log('✅ E2E: ключи в порядке');
+                return true;
+            }
+        }catch(e){}
     }
-    if(privKey && pubJwk && !dbKeyValid){
+
+    // Если локальная пара валидна, но в БД пусто/другое — синхронизируем
+    if(localPairValid && pubJwk && !dbKeyValid){
         try{
             const pubStr=JSON.stringify(pubJwk);
             const{error}=await supabaseClient.from('profiles').update({public_key:pubStr}).eq('id',me.id);
             if(!error){
                 me.public_key=pubStr;
-                console.log('✅ E2E: синхронизировал существующий ключ в БД, длина',pubStr.length);
+                console.log('✅ E2E: синхронизировал ключ в БД, длина',pubStr.length);
                 return true;
             }
             console.warn('sync pub key failed:',error.message,error.code);
         }catch(e){ console.warn('sync exception',e); }
     }
+
+    // Генерируем новую пару
     try{
-        const keyPair=await crypto.subtle.generateKey({name:'ECDH',namedCurve:'P-256'},false,['deriveKey']);
+        const keyPair=await crypto.subtle.generateKey({name:'ECDH',namedCurve:'P-256'},true,['deriveKey']);
         const pub=await crypto.subtle.exportKey('jwk',keyPair.publicKey);
         const pubStr=JSON.stringify(pub);
         await idbSet('priv_'+me.id,keyPair.privateKey);
@@ -1003,6 +1066,7 @@ async function ensureE2EKeys(){
             console.error('❌ save pub key failed:',error.message,error.code);
             if(error.code==='P0001' || /immutable/i.test(error.message||'')){
                 console.error('❌ Убери триггер trg_protect_public_key в Supabase');
+                toast('❌ Ключ заморожен в БД. Убери триггер в Supabase.');
             }
             return false;
         }
@@ -1014,10 +1078,11 @@ async function ensureE2EKeys(){
         return false;
     }
 }
+
 async function getSharedKey(userId){
     if(e2eKeys[userId])return e2eKeys[userId];
     const myPriv=await idbGet('priv_'+me.id);
-    if(!myPriv){ console.warn('❌ no private key for me, regenerating'); await ensureE2EKeys(); return null; }
+    if(!myPriv){ console.warn('❌ no private key, regenerating'); await ensureE2EKeys(); return null; }
     let other=allUsers.find(u=>u.id===userId);
     if(!other) other=await fetchUserById(userId);
     if(!other) return null;
@@ -1031,7 +1096,7 @@ async function getSharedKey(userId){
         e2eKeys[userId]=shared;
         return shared;
     }catch(e){
-        if(!warnedUsers.has(userId)){ warnedUsers.add(userId); console.warn('❌ derive shared key failed for',other.username,e.message); }
+        if(!warnedUsers.has(userId)){ warnedUsers.add(userId); console.warn('❌ derive failed for',other.username,e.message); }
         return null;
     }
 }
@@ -1068,6 +1133,21 @@ function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classL
 function openModal(id){const m=$(id);if(!m)return;m.style.display='flex';setTimeout(()=>m.classList.add('show'),10)}
 function closeModal(id){const m=$(id);if(!m)return;m.classList.remove('show');setTimeout(()=>{m.style.display='none'},300)}
 
+// === Закрытие модалок по клику на фон и по Escape ===
+function setupModalBackdropClose(modalId,closeFn){
+    const m=$(modalId);if(!m)return;
+    m.addEventListener('click',e=>{ if(e.target===m) closeFn(); });
+}
+document.addEventListener('keydown',e=>{
+    if(e.key!=='Escape') return;
+    const confirm=$('confirm-modal');if(confirm&&confirm.classList.contains('show')){closeConfirmModal();return;}
+    const profile=$('profile-modal');if(profile&&profile.classList.contains('show')){closeProfileModal();return;}
+    const color=$('color-modal');if(color&&color.classList.contains('show')){closeColorModal();return;}
+    const viewer=$('img-viewer');if(viewer&&viewer.classList.contains('show')){closeImageViewer();return;}
+    const sp=$('search-panel');if(sp&&!sp.classList.contains('hidden')){closeMsgSearch();return;}
+    ['sub-appearance','sub-privacy','sub-blocked','sub-whocanwrite','sub-notifications'].forEach(id=>{const el=$(id);if(el&&el.classList.contains('active'))el.classList.remove('active')});
+});
+
 const otpInputs=document.querySelectorAll('.otp-input');
 otpInputs.forEach((inp,i)=>{
     inp.addEventListener('input',e=>{const v=e.target.value.replace(/[^0-9]/g,'');e.target.value=v;if(v&&i<otpInputs.length-1)otpInputs[i+1].focus();if(i===otpInputs.length-1&&v)verifyOtp()});
@@ -1098,17 +1178,8 @@ function updatePwStrength(p){if(!pwStrength)return;const s=pwScore(p);pwStrength
 
 authSwitchBtns.forEach(t=>{t.onclick=()=>{if(registerMode===(t.dataset.mode==='register'))return;setAuthMode(t.dataset.mode);};});
 
-// ========= БЕЗОПАСНАЯ ПРИВЯЗКА ОБРАБОТЧИКОВ =========
-function bind(id, handler){
-    const el=$(id);
-    if(el) el.onclick=handler;
-    else console.warn('⚠️ element not found:', id);
-}
-function bindEv(id, event, handler){
-    const el=$(id);
-    if(el) el[event]=handler;
-    else console.warn('⚠️ element not found:', id);
-}
+function bind(id, handler){const el=$(id);if(el)el.onclick=handler;else console.warn('⚠️ element not found:',id);}
+function bindEv(id, event, handler){const el=$(id);if(el)el[event]=handler;else console.warn('⚠️ element not found:',id);}
 
 bind('toggle-pass',()=>{
     const inp=$('auth-pass');const icon=$('eye-icon');if(!inp||!icon)return;
@@ -1255,6 +1326,7 @@ async function enterMessenger(gen){
     updateAccountUI();
     showScreen('screen-messenger');
     setView('chats');
+    setConnectionState('loading');
     const keysOk=await ensureE2EKeys();
     console.log('🔑 E2E keys result:',keysOk,'me.public_key length:',me.public_key?.length||0);
     if(!isCurrentSession(gen)) return;
@@ -1264,6 +1336,7 @@ async function enterMessenger(gen){
     await loadChatsList();
     if(!isCurrentSession(gen)) return;
     setupRealtime();setupTypingChannel();startPresence();updateUnreadTotal();
+    setConnectionState('ready');
     safeTimeout(()=>{ if(me) supabaseClient.from('profiles').update({last_seen:new Date().toISOString()}).eq('id',me.id); },1000);
     safeTimeout(async()=>{ await fetchAllUsers(); await loadChatsList(); if(currentChatUser)updateChatHeader(); },2000);
     safeTimeout(async()=>{ await fetchAllUsers(); await loadChatsList(); if(currentChatUser)updateChatHeader(); },5000);
@@ -1624,16 +1697,31 @@ async function openChat(u){
     const mi=$('msg-input');if(mi)mi.value=drafts[chatId]||'';
     cancelPhoto();updateChatHeader();
     const inputArea=$('input-area');const msgInput=$('msg-input');
+    // Проверка блокировки — показываем баннер
+    const blocked=iBlocked(u)||blockedMe(u)||!canWriteTo(u);
     if(inputArea&&msgInput){
-        if(iBlocked(u)||blockedMe(u)){
-            msgInput.disabled=true;msgInput.placeholder='Вы не можете отправлять сообщения';
-            inputArea.style.opacity='0.5';inputArea.style.pointerEvents='none';
-        }else{msgInput.disabled=false;msgInput.placeholder='Сообщение...';inputArea.style.opacity='1';inputArea.style.pointerEvents='auto';}
+        if(blocked){
+            msgInput.disabled=true;msgInput.placeholder='Отправка сообщений недоступна';
+            inputArea.style.display='none';
+        }else{msgInput.disabled=false;msgInput.placeholder='Сообщение...';inputArea.style.display='block';}
     }
-    const b=$('messages');if(!b)return;b.innerHTML=renderSkeleton();
+    const b=$('messages');if(!b)return;
+    // Баннер о блокировке
+    let banner=document.getElementById('blocked-banner');
+    if(banner)banner.remove();
+    if(blocked){
+        banner=document.createElement('div');
+        banner.id='blocked-banner';
+        banner.className='blocked-banner';
+        const reason=iBlocked(u)||blockedMe(u)?'Вы или собеседник в блокировке — сообщения недоступны.':'Этот пользователь закрыл сообщения.';
+        banner.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span>'+reason+'</span>';
+        b.appendChild(banner);
+    }
+    b.innerHTML=renderSkeleton();
     const{data}=await supabaseClient.from('messages').select('*').eq('chat_id',chatId).order('created_at',{ascending:false}).limit(200);
     const ordered=(data||[]).slice().reverse();
     b.innerHTML='';messagesCache={};
+    if(blocked){b.appendChild(banner.cloneNode(true));}
     if(ordered.length===0){loadChatsList();updateUnreadTotal();return;}
     ordered.forEach(m=>{messagesCache[m.id]=m;});
     await loadMessageReads(ordered.map(m=>m.id));
@@ -1910,7 +1998,7 @@ async function blockUser(userId){
     const{error}=await supabaseClient.from('profiles').update({blocked_ids:nb}).eq('id',me.id);
     if(error)return toast('Ошибка');
     me.blocked_ids=nb;toast('Заблокирован');
-    if(currentChatUser&&currentChatUser.id===userId){const inputArea=$('input-area');const msgInput=$('msg-input');msgInput.disabled=true;msgInput.placeholder='Вы не можете отправлять сообщения';inputArea.style.opacity='0.5';inputArea.style.pointerEvents='none';}
+    if(currentChatUser&&currentChatUser.id===userId){const inputArea=$('input-area');const msgInput=$('msg-input');msgInput.disabled=true;msgInput.placeholder='Отправка сообщений недоступна';inputArea.style.display='none';}
     closeProfileModal();loadBlockedList();loadChatsList();
 }
 async function unblockUser(userId){
@@ -1919,7 +2007,7 @@ async function unblockUser(userId){
     const{error}=await supabaseClient.from('profiles').update({blocked_ids:nb}).eq('id',me.id);
     if(error)return toast('Ошибка');
     me.blocked_ids=nb;toast('Разблокирован');
-    if(currentChatUser&&currentChatUser.id===userId){const inputArea=$('input-area');const msgInput=$('msg-input');msgInput.disabled=false;msgInput.placeholder='Сообщение...';inputArea.style.opacity='1';inputArea.style.pointerEvents='auto';}
+    if(currentChatUser&&currentChatUser.id===userId){const inputArea=$('input-area');const msgInput=$('msg-input');msgInput.disabled=false;msgInput.placeholder='Сообщение...';inputArea.style.display='block';}
     closeProfileModal();loadBlockedList();loadChatsList();
 }
 async function togglePrivacy(field){
@@ -2036,7 +2124,7 @@ function logout(){
     authFlowBusy=false;supabaseClient.auth.signOut();resetAppState();setAuthMode('login');showScreen('screen-auth');setView('chats');
 }
 
-// === ВСЕ ПРИВЯЗКИ ЧЕРЕЗ bind (безопасно) ===
+// === ПРИВЯЗКИ ===
 bind('auth-btn', handleAuth);
 bind('forgot-link', forgotPassword);
 bind('verify-btn', verifyOtp);
@@ -2069,7 +2157,8 @@ bind('confirm-cancel', closeConfirmModal);
 bind('confirm-ok', executeConfirmAction);
 bind('btn-color', openColorModal);
 bind('img-viewer', closeImageViewer);
-bind('profile-card', openColorModal);
+bind('profile-avatar-trigger', ()=>{const f=$('fileInputAcc');if(f)f.click();});
+bind('profile-card-edit', ()=>{const el=$('input-name');if(el)el.focus();});
 bind('row-appearance', ()=>openSubView('sub-appearance'));
 bind('row-privacy', ()=>openSubView('sub-privacy'));
 bind('row-whocanwrite', ()=>openSubView('sub-whocanwrite'));
@@ -2089,6 +2178,12 @@ bind('save-username', ()=>saveCardField('username'));
 bind('save-bio', ()=>saveCardField('bio'));
 bind('row-notif-toggle', toggleNotifications);
 
+// Закрытие модалок по клику на фон
+setupModalBackdropClose('profile-modal',closeProfileModal);
+setupModalBackdropClose('confirm-modal',closeConfirmModal);
+setupModalBackdropClose('color-modal',closeColorModal);
+setupModalBackdropClose('img-viewer',closeImageViewer);
+
 bindEv('fileInput','onchange',e=>{previewAvatar(e.target);e.target.value='';});
 bindEv('fileInputAcc','onchange',e=>{updateAccountAvatar(e.target);e.target.value='';});
 bindEv('img-input','onchange',e=>{handlePhotoSelect(e.target);e.target.value='';});
@@ -2099,7 +2194,6 @@ bindEv('msg-input','onkeydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDef
 bindEv('msg-input','oninput',handleTyping);
 bindEv('search-input','oninput',handleSearch);
 bindEv('msg-search-input','oninput',handleMessageSearch);
-bindEv('msg-search-input','onkeydown',e=>{if(e.key==='Escape')toggleMessageSearch()});
 
 document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>toggleCardEdit(b.dataset.edit));
 document.querySelectorAll('.theme-opt').forEach(b=>b.onclick=()=>setTheme(b.dataset.theme));
@@ -2107,10 +2201,6 @@ document.querySelectorAll('[data-privacy]').forEach(r=>r.onclick=()=>togglePriva
 document.querySelectorAll('#who-can-write .seg-opt').forEach(b=>b.onclick=()=>setWhoCanWrite(b.dataset.val));
 
 document.addEventListener('keydown',(e)=>{
-    if(e.key==='Escape'){
-        const sp=$('search-panel');if(sp&&!sp.classList.contains('hidden')){closeMsgSearch();return;}
-        ['sub-appearance','sub-privacy','sub-blocked','sub-whocanwrite','sub-notifications'].forEach(id=>{const el=$(id);if(el&&el.classList.contains('active'))el.classList.remove('active')});
-    }
     if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();if(currentChatUser)toggleMessageSearch();else $('search-input')?.focus();}
 });
 
