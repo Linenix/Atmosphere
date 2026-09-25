@@ -74,7 +74,7 @@
     .auth-field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,138,255,.15)}
     .auth-field input::placeholder{color:var(--muted-2);font-weight:400}
     .auth-field .field-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--muted-2);pointer-events:none}
-    .auth-field .field-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;border:none;background:transparent;color:var(--muted-2);cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:color .2s,background .2s}
+    .auth-field .field-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;border:none;background:transparent;color:var(--muted-2);cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center}
     .auth-field .field-toggle:hover{background:rgba(255,255,255,.06);color:var(--text)}
     .auth-field .field-toggle svg{width:16px;height:16px;fill:currentColor}
     .pw-strength{display:flex;gap:3px;margin-top:-6px;padding:0 2px;height:3px}
@@ -137,7 +137,7 @@
     .conn-text .dots span:nth-child(3){animation-delay:.4s}
 
     .search-wrap{padding:0 14px 12px;flex-shrink:0;position:relative}
-    .search-wrap input{background:var(--surface-2);color:var(--text);border:1px solid transparent;border-radius:11px;padding:10px 14px 10px 36px;font-size:13px;font-weight:500;transition:border-color .2s,background .2s}
+    .search-wrap input{background:var(--surface-2);color:var(--text);border:1px solid transparent;border-radius:11px;padding:10px 14px 10px 36px;font-size:13px;font-weight:500}
     .search-wrap input:focus{border-color:var(--accent);box-shadow:none}
     #search-results,#chat-list{flex:1;overflow-y:auto;padding:4px 8px 12px;min-height:0}
     .chat-item{display:flex;gap:11px;align-items:center;padding:10px;border-radius:12px;cursor:pointer;transition:background .2s;position:relative;animation:fadeIn .3s var(--ease) both}
@@ -205,7 +205,6 @@
     .bubble .edited{font-size:10px;opacity:.7;font-style:italic}
     .bubble .ticks{font-size:11px;transition:color .3s;font-weight:600}
     .bubble .ticks.read{color:#c9f7d4}
-    .bubble.locked{opacity:.75;font-style:italic}
     .bubble img.msg-img{width:100%;max-width:260px;height:auto;border-radius:12px;display:block;cursor:pointer;align-self:flex-start}
     .bubble.sent img.msg-img{align-self:flex-end}
     .bubble a{color:inherit;text-decoration:underline;word-break:break-all;font-weight:500}
@@ -251,13 +250,13 @@
     .remove-photo-btn{position:absolute;top:6px;right:6px;width:22px;height:22px;background:rgba(0,0,0,.65);color:#fff;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;z-index:2}
     .upload-progress{position:absolute;bottom:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:0 2px 2px 0;transition:width .3s ease}
     .input-bar{display:flex;gap:8px;align-items:center;position:relative}
-    .input-bar input{background:var(--surface-2);color:var(--text);flex:1;border:1px solid var(--border);border-radius:14px;padding:12px 18px;font-size:14px;font-weight:500;transition:all .2s}
+    .input-bar input{background:var(--surface-2);color:var(--text);flex:1;border:1px solid var(--border);border-radius:14px;padding:12px 18px;font-size:14px;font-weight:500}
     .input-bar input:disabled{opacity:.5;cursor:not-allowed}
     .input-bar input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,138,255,.12)}
-    .icon-btn{width:42px;height:42px;flex-shrink:0;border:none;cursor:pointer;border-radius:50%;background:var(--surface-2);color:var(--muted);display:flex;justify-content:center;align-items:center;transition:color .2s,background .2s;position:relative;overflow:hidden}
+    .icon-btn{width:42px;height:42px;flex-shrink:0;border:none;cursor:pointer;border-radius:50%;background:var(--surface-2);color:var(--muted);display:flex;justify-content:center;align-items:center;position:relative;overflow:hidden}
     .icon-btn:hover{color:var(--text);background:var(--border-2)}
     .icon-btn svg{width:18px;height:18px;fill:currentColor;position:relative;z-index:1;pointer-events:none}
-    .send{width:42px;height:42px;flex-shrink:0;border:none;cursor:pointer;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;display:flex;justify-content:center;align-items:center;transition:transform .2s var(--spring),box-shadow .2s;box-shadow:0 3px 12px rgba(124,138,255,.35)}
+    .send{width:42px;height:42px;flex-shrink:0;border:none;cursor:pointer;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;display:flex;justify-content:center;align-items:center;box-shadow:0 3px 12px rgba(124,138,255,.35)}
     .send svg{width:16px;height:16px;fill:currentColor;margin-left:2px}
     .send:hover{transform:scale(1.06)}
 
@@ -277,9 +276,9 @@
     .profile-card-info{flex:1;min-width:0;position:relative;z-index:1}
     .profile-card-info .pc-name{font-size:16px;font-weight:700;display:flex;align-items:center;gap:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .profile-card-info .pc-username{font-size:13px;color:var(--muted);margin-top:2px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .profile-card-edit{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;color:var(--muted);position:relative;z-index:1;cursor:pointer;transition:transform .2s}
-    .profile-card-edit:hover{transform:scale(1.08)}
-    .profile-card-edit svg{width:14px;height:14px;fill:currentColor}
+    .profile-card-edit{width:34px;height:34px;border-radius:10px;background:rgba(124,138,255,.15);display:flex;align-items:center;justify-content:center;color:var(--accent);position:relative;z-index:1;cursor:pointer;transition:transform .2s,background .2s;flex-shrink:0}
+    .profile-card-edit:hover{transform:scale(1.08);background:rgba(124,138,255,.25)}
+    .profile-card-edit svg{width:16px;height:16px;fill:currentColor}
 
     .profile-field{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;position:relative;transition:border-color .2s}
     .profile-field:hover{border-color:var(--border-2)}
@@ -288,7 +287,7 @@
     .profile-field-input{width:100%;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;padding:8px 10px;outline:none;font-family:inherit;margin-top:6px;font-weight:500}
     .profile-field-input.area{resize:none;height:52px}
     .card-actions{position:absolute;top:10px;right:10px;display:flex;gap:4px}
-    .card-btn{width:24px;height:24px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s var(--spring)}
+    .card-btn{width:24px;height:24px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
     .card-btn.edit{background:rgba(255,255,255,.06);color:var(--muted)}
     .card-btn.edit:hover{background:rgba(255,255,255,.1);color:var(--text)}
     .card-btn.save{background:var(--green);color:#fff}
@@ -318,26 +317,26 @@
     .toggle::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .25s var(--spring);box-shadow:0 1px 3px rgba(0,0,0,.2)}
     .toggle.on::after{transform:translateX(16px)}
     .theme-seg{display:flex;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:3px;gap:3px}
-    .theme-opt{flex:1;padding:9px;border-radius:7px;border:none;background:transparent;color:var(--muted);font-size:12.5px;font-weight:600;cursor:pointer;transition:color .25s,background .25s;display:flex;align-items:center;justify-content:center;gap:5px}
+    .theme-opt{flex:1;padding:9px;border-radius:7px;border:none;background:transparent;color:var(--muted);font-size:12.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px}
     .theme-opt.active{background:var(--card);color:var(--text);box-shadow:var(--shadow-sm)}
     .theme-opt svg{width:13px;height:13px;fill:currentColor}
     .seg-control{display:flex;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:3px;gap:3px;position:relative}
-    .seg-opt{flex:1;padding:9px;border-radius:7px;border:none;background:transparent;color:var(--muted);font-size:12.5px;font-weight:600;cursor:pointer;transition:color .25s;position:relative;z-index:1}
+    .seg-opt{flex:1;padding:9px;border-radius:7px;border:none;background:transparent;color:var(--muted);font-size:12.5px;font-weight:600;cursor:pointer;position:relative;z-index:1}
     .seg-opt.active{color:var(--text)}
     .seg-slider{position:absolute;top:3px;left:3px;bottom:3px;width:calc(50% - 3px);background:var(--card);border-radius:7px;transition:transform .3s var(--spring);z-index:0;box-shadow:var(--shadow-sm)}
 
-    .blocked-item{display:flex;align-items:center;gap:11px;padding:11px 14px;border-bottom:1px solid var(--border);transition:background .2s}
+    .blocked-item{display:flex;align-items:center;gap:11px;padding:11px 14px;border-bottom:1px solid var(--border)}
     .blocked-item:last-child{border-bottom:none}
     .blocked-item-info{flex:1;min-width:0}
     .blocked-item-name{font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:4px}
     .blocked-item-username{font-size:11.5px;color:var(--muted);margin-top:1px}
-    .unblock-btn{padding:6px 11px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:11.5px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap}
+    .unblock-btn{padding:6px 11px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:11.5px;font-weight:500;cursor:pointer;white-space:nowrap}
     .unblock-btn:hover{background:rgba(255,107,107,.1);color:var(--red);border-color:rgba(255,107,107,.3)}
 
-    .btn-logout{background:transparent;color:var(--red);border:none;border-top:1px solid var(--border);border-radius:0;padding:13px 16px;width:100%;font-weight:500;font-size:13.5px;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+    .btn-logout{background:transparent;color:var(--red);border:none;border-top:1px solid var(--border);border-radius:0;padding:13px 16px;width:100%;font-weight:500;font-size:13.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
     .btn-logout:hover{background:rgba(255,107,107,.05)}
     .btn-logout svg{width:15px;height:15px;fill:currentColor}
-    .btn-danger-solid{background:transparent;color:var(--red);border:none;border-top:1px solid var(--border);border-radius:0;padding:13px 16px;width:100%;font-weight:500;font-size:13.5px;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+    .btn-danger-solid{background:transparent;color:var(--red);border:none;border-top:1px solid var(--border);border-radius:0;padding:13px 16px;width:100%;font-weight:500;font-size:13.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
     .btn-danger-solid:hover{background:rgba(255,107,107,.05)}
     .btn-danger-solid svg{width:15px;height:15px;fill:currentColor}
 
@@ -345,7 +344,7 @@
     .sub-view.active{opacity:1;visibility:visible;transform:none;transition:opacity .3s var(--ease),transform .3s var(--ease)}
 
     #context-menu{position:fixed;background:var(--card);border:1px solid var(--border-2);border-radius:10px;padding:5px 0;min-width:170px;box-shadow:var(--shadow-lg);z-index:1000;display:none;animation:menuIn .18s var(--spring)}
-    .ctx-item{padding:9px 14px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:10px;color:var(--text);transition:background .15s}
+    .ctx-item{padding:9px 14px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:10px;color:var(--text)}
     .ctx-item:hover{background:var(--surface-2)}
     .ctx-item.danger{color:var(--red)}
     .ctx-item svg{width:14px;height:14px;fill:currentColor}
@@ -353,8 +352,8 @@
     #profile-modal.show,#confirm-modal.show,#color-modal.show{background:rgba(0,0,0,.6);backdrop-filter:blur(6px)}
     .modal-card{background:var(--card);border:1px solid var(--border-2);border-radius:20px;width:min(380px,90vw);overflow:hidden;max-height:90vh;overflow-y:auto;transform:translateY(20px) scale(.96);opacity:0;transition:transform .35s var(--spring),opacity .25s;box-shadow:var(--shadow-lg)}
     #profile-modal.show .modal-card{transform:none;opacity:1}
-    .modal-close{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.5);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;z-index:10;transition:transform .2s}
-    .modal-profile-top{position:relative;display:flex;flex-direction:column;align-items:center;padding:40px 20px 20px;transition:background .5s var(--ease)}
+    .modal-close{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.5);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;z-index:10}
+    .modal-profile-top{position:relative;display:flex;flex-direction:column;align-items:center;padding:40px 20px 20px}
     .modal-avatar-wrap{position:relative;z-index:2}
     .modal-avatar-wrap .avatar{width:90px;height:90px;border:3px solid rgba(0,0,0,.35);box-shadow:var(--shadow-md)}
     .modal-avatar-wrap .avatar span{font-size:24px}
@@ -362,14 +361,14 @@
     .modal-name-section .p-name{font-size:22px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;gap:5px}
     .modal-name-section .p-username{color:rgba(255,255,255,.75);font-size:14px;margin-top:1px;font-weight:500}
     .modal-status-bar{display:flex;align-items:center;justify-content:center;gap:7px;font-size:13px;color:rgba(255,255,255,.7);margin-top:8px;font-weight:500}
-    .status-dot-small{width:7px;height:7px;border-radius:50%;background:var(--green);transition:background .3s}
+    .status-dot-small{width:7px;height:7px;border-radius:50%;background:var(--green)}
     .status-dot-small.offline{background:rgba(255,255,255,.4)}
     .status-dot-small.dnd{background:var(--orange)}
     .modal-info-card{background:rgba(0,0,0,.15);border-radius:11px;padding:12px 14px;margin:10px 14px 0}
     .modal-info-label{font-size:11px;text-transform:uppercase;color:var(--muted-2);font-weight:600;margin-bottom:3px;letter-spacing:.6px}
     .modal-info-value{font-size:14px;color:var(--text);line-height:1.55;white-space:pre-wrap}
     .modal-actions{display:flex;gap:8px;padding:14px;flex-wrap:wrap}
-    .modal-btn{flex:1;padding:11px;border-radius:11px;border:none;cursor:pointer;font-size:13.5px;font-weight:600;transition:all .2s var(--spring);min-width:90px}
+    .modal-btn{flex:1;padding:11px;border-radius:11px;border:none;cursor:pointer;font-size:13.5px;font-weight:600;min-width:90px}
     .modal-btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff}
     .modal-btn.danger{background:rgba(255,107,107,.15);color:var(--red);border:1px solid rgba(255,107,107,.3)}
     .confirm-card{background:var(--card);border:1px solid var(--border);border-radius:20px;width:min(360px,90vw);padding:26px;text-align:center;transform:translateY(20px) scale(.96);opacity:0;transition:transform .35s var(--spring),opacity .25s}
@@ -400,15 +399,34 @@
     .mobile-nav .nav-icon.active{color:var(--text);background:transparent}
 
     @media (min-width:769px){#view-chats:not(.chat-open) #chat-active{display:none}#view-chats.chat-open .chat-empty-state{display:none}}
+
     @media (max-width:768px){
         .rail{display:none}
         #screen-messenger{flex-direction:column}
-        .main{flex-direction:column;overflow:hidden}
-        #view-chats{flex-direction:column;position:relative;overflow:hidden}
-        .list-panel{width:100%;border-right:none;position:absolute;inset:0;z-index:3;padding-bottom:60px;transition:transform .3s var(--ease),opacity .3s var(--ease)}
-        .chat-area{position:absolute;inset:0;z-index:4;transform:translateX(100%);transition:transform .3s var(--ease);padding-bottom:0;background:var(--bg)}
-        #view-chats.chat-open .list-panel{transform:translateX(-25%);opacity:.3;pointer-events:none}
-        #view-chats.chat-open .chat-area{transform:translateX(0)}
+        .main{flex-direction:column;overflow:hidden;position:relative;flex:1;min-height:0}
+        #view-chats{flex-direction:row;position:relative;overflow:hidden;padding-bottom:0;flex:1;min-height:0}
+
+        .list-panel{
+            width:100%;border-right:none;
+            position:absolute;inset:0;
+            z-index:3;
+            padding-bottom:60px;
+            transition:transform .3s var(--ease),opacity .3s var(--ease);
+            will-change:transform;
+        }
+        .chat-area{
+            position:absolute;inset:0;
+            z-index:4;
+            transform:translateX(100%);
+            transition:transform .3s var(--ease);
+            padding-bottom:0;
+            background:var(--bg);
+            pointer-events:none;
+            will-change:transform;
+        }
+        #view-chats.chat-open .list-panel{transform:translateX(-25%);opacity:.25;pointer-events:none}
+        #view-chats.chat-open .chat-area{transform:translateX(0);pointer-events:auto}
+
         .back-mobile{display:flex}
         .chat-header{padding:10px 14px}
         .messages{padding:14px 16px}
@@ -572,7 +590,7 @@
             </div>
             <div class="settings-view">
                 <div class="settings-container">
-                    <div class="profile-card" id="profile-card">
+                    <div class="profile-card">
                         <div class="profile-card-avatar" id="profile-avatar-trigger">
                             <div class="avatar" id="acc-avatar-circle" style="position:relative;overflow:hidden">
                                 <img id="acc-avatar-img"><span>+</span>
@@ -583,11 +601,11 @@
                             <div class="pc-name" id="display-name">Пользователь</div>
                             <div class="pc-username" id="display-username">@user</div>
                         </div>
-                        <div class="profile-card-edit" id="profile-card-edit" title="Изменить имя"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></div>
+                        <button class="profile-card-edit" id="btn-color" title="Цвет профиля"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8z"/></svg></button>
                     </div>
                     <input type="file" id="fileInputAcc" accept="image/*" style="display:none">
 
-                    <div class="profile-field" id="card-name">
+                    <div class="profile-field">
                         <div class="profile-field-label">Имя</div>
                         <div class="profile-field-value" id="info-name">—</div>
                         <input class="profile-field-input hidden" id="input-name" maxlength="32">
@@ -596,7 +614,7 @@
                             <button class="card-btn edit" data-edit="name"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></button>
                         </div>
                     </div>
-                    <div class="profile-field" id="card-username">
+                    <div class="profile-field">
                         <div class="profile-field-label">Юзернейм</div>
                         <div class="profile-field-value" id="info-username">@user</div>
                         <input class="profile-field-input hidden" id="input-username" maxlength="20" autocomplete="off" autocapitalize="off" spellcheck="false">
@@ -605,7 +623,7 @@
                             <button class="card-btn edit" data-edit="username"><svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></button>
                         </div>
                     </div>
-                    <div class="profile-field" id="card-bio">
+                    <div class="profile-field">
                         <div class="profile-field-label">О себе</div>
                         <div class="profile-field-value" id="info-bio">Нет описания</div>
                         <textarea class="profile-field-input area hidden" id="input-bio" maxlength="200"></textarea>
@@ -968,7 +986,7 @@ async function ensureE2EKeys(){
 async function getSharedKey(userId){
     if(e2eKeys[userId])return e2eKeys[userId];
     const myPriv=await idbGet('priv_'+me.id);
-    if(!myPriv){console.warn('❌ no private key, regenerating');await ensureE2EKeys();return null;}
+    if(!myPriv){await ensureE2EKeys();return null;}
     let other=allUsers.find(u=>u.id===userId);
     if(!other)other=await fetchUserById(userId);
     if(!other)return null;
@@ -1222,7 +1240,6 @@ async function enterMessenger(gen){
     safeTimeout(()=>{if(me)supabaseClient.from('profiles').update({last_seen:new Date().toISOString()}).eq('id',me.id);},1000);
     safeTimeout(async()=>{await fetchAllUsers();await loadChatsList();if(currentChatUser)updateChatHeader();},2000);
     safeTimeout(async()=>{await fetchAllUsers();await loadChatsList();if(currentChatUser)updateChatHeader();},5000);
-    // Фон-проверка ключей собеседника каждые 30 сек
     if(window.keyCheckTimer)clearInterval(window.keyCheckTimer);
     window.keyCheckTimer=setInterval(async()=>{
         if(!me)return;
@@ -1231,9 +1248,7 @@ async function enterMessenger(gen){
             const upd=allUsers.find(u=>u.id===currentChatUser.id);
             if(upd && upd.public_key){
                 currentChatUser=upd;
-                if(document.querySelector('#chat-active:not(.hidden)')){
-                    await openChat(upd);
-                }
+                if(document.querySelector('#chat-active:not(.hidden)')) await openChat(upd);
             }
         }
     },30000);
@@ -1320,7 +1335,7 @@ function updateAccountUI(){
         else{a.removeAttribute('src');a.style.display='none';if(a.nextElementSibling)a.nextElementSibling.style.display='block';}
     }
     const ac=$('acc-avatar-circle');if(ac)ac.style.background=bg;
-    const pc=$('profile-card');if(pc)pc.style.setProperty('--profile-bg',hexToRgba(bg,.12));
+    const pc=ac?.closest('.profile-card');if(pc)pc.style.setProperty('--profile-bg',hexToRgba(bg,.12));
     $('toggle-hide_avatar')?.classList.toggle('on',me.hide_avatar===true);
     $('toggle-hide_username')?.classList.toggle('on',me.hide_username===true);
     $('toggle-hide_bio')?.classList.toggle('on',me.hide_bio===true);
@@ -1605,7 +1620,6 @@ async function openChat(u){
     const{data}=await supabaseClient.from('messages').select('*').eq('chat_id',chatId).order('created_at',{ascending:false}).limit(200);
     const ordered=(data||[]).slice().reverse();
     b.innerHTML='';messagesCache={};
-    // Баннер о недоступности
     if(blocked){
         const banner=document.createElement('div');
         banner.className='e2e-banner';
@@ -1613,7 +1627,6 @@ async function openChat(u){
         banner.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg><span>'+reason+'</span>';
         b.appendChild(banner);
     }
-    // Баннер ожидания ключа
     if(!blocked && !u.public_key){
         const banner=document.createElement('div');
         banner.className='e2e-banner';
@@ -2023,6 +2036,7 @@ function logout(){
     authFlowBusy=false;supabaseClient.auth.signOut();resetAppState();setAuthMode('login');showScreen('screen-auth');setView('chats');
 }
 
+// === ПРИВЯЗКИ ===
 bind('auth-btn',handleAuth);
 bind('forgot-link',forgotPassword);
 bind('verify-btn',verifyOtp);
@@ -2053,10 +2067,15 @@ bind('ctx-delete-chat',deleteChat);
 bind('modal-close',closeProfileModal);
 bind('confirm-cancel',closeConfirmModal);
 bind('confirm-ok',executeConfirmAction);
-bind('btn-color',openColorModal);
 bind('img-viewer',closeImageViewer);
-bind('profile-avatar-trigger',()=>{const f=$('fileInputAcc');if(f)f.click();});
-bind('profile-card-edit',()=>{const el=$('input-name');if(el)el.focus();});
+
+// === КНОПКА ЦВЕТА (карандаш) ===
+bind('btn-color',e=>{ if(e) e.stopPropagation(); openColorModal(); });
+
+// === АВАТАРКА — загрузка фото ===
+bind('profile-avatar-trigger',e=>{ if(e) e.stopPropagation(); const f=$('fileInputAcc'); if(f) f.click(); });
+
+// === РАЗДЕЛЫ НАСТРОЕК ===
 bind('row-appearance',()=>openSubView('sub-appearance'));
 bind('row-privacy',()=>openSubView('sub-privacy'));
 bind('row-whocanwrite',()=>openSubView('sub-whocanwrite'));
