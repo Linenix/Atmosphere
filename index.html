@@ -276,7 +276,7 @@
     .profile-card-info{flex:1;min-width:0;position:relative;z-index:1}
     .profile-card-info .pc-name{font-size:16px;font-weight:700;display:flex;align-items:center;gap:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .profile-card-info .pc-username{font-size:13px;color:var(--muted);margin-top:2px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .profile-card-edit{width:34px;height:34px;border-radius:10px;background:rgba(124,138,255,.15);display:flex;align-items:center;justify-content:center;color:var(--accent);position:relative;z-index:1;cursor:pointer;transition:transform .2s,background .2s;flex-shrink:0}
+    .profile-card-edit{width:34px;height:34px;border-radius:10px;background:rgba(124,138,255,.15);display:flex;align-items:center;justify-content:center;color:var(--accent);position:relative;z-index:1;cursor:pointer;transition:transform .2s,background .2s;flex-shrink:0;border:none}
     .profile-card-edit:hover{transform:scale(1.08);background:rgba(124,138,255,.25)}
     .profile-card-edit svg{width:16px;height:16px;fill:currentColor}
 
@@ -405,28 +405,10 @@
         #screen-messenger{flex-direction:column}
         .main{flex-direction:column;overflow:hidden;position:relative;flex:1;min-height:0}
         #view-chats{flex-direction:row;position:relative;overflow:hidden;padding-bottom:0;flex:1;min-height:0}
-
-        .list-panel{
-            width:100%;border-right:none;
-            position:absolute;inset:0;
-            z-index:3;
-            padding-bottom:60px;
-            transition:transform .3s var(--ease),opacity .3s var(--ease);
-            will-change:transform;
-        }
-        .chat-area{
-            position:absolute;inset:0;
-            z-index:4;
-            transform:translateX(100%);
-            transition:transform .3s var(--ease);
-            padding-bottom:0;
-            background:var(--bg);
-            pointer-events:none;
-            will-change:transform;
-        }
+        .list-panel{width:100%;border-right:none;position:absolute;inset:0;z-index:3;padding-bottom:60px;transition:transform .3s var(--ease),opacity .3s var(--ease);will-change:transform}
+        .chat-area{position:absolute;inset:0;z-index:4;transform:translateX(100%);transition:transform .3s var(--ease);padding-bottom:0;background:var(--bg);pointer-events:none;will-change:transform}
         #view-chats.chat-open .list-panel{transform:translateX(-25%);opacity:.25;pointer-events:none}
         #view-chats.chat-open .chat-area{transform:translateX(0);pointer-events:auto}
-
         .back-mobile{display:flex}
         .chat-header{padding:10px 14px}
         .messages{padding:14px 16px}
@@ -964,7 +946,12 @@ async function ensureE2EKeys(){
         try{
             const pubStr=JSON.stringify(pubJwk);
             const{error}=await supabaseClient.from('profiles').update({public_key:pubStr}).eq('id',me.id);
-            if(!error){me.public_key=pubStr;console.log('✅ E2E: синхронизировал ключ в БД');return true;}
+            if(!error){
+                me.public_key=pubStr;
+                e2eKeys={}; // ИНВАЛИДИРУЕМ ВСЕ ПРОИЗВОДНЫЕ КЛЮЧИ
+                console.log('✅ E2E: синхронизировал ключ в БД, кэш сброшен');
+                return true;
+            }
             console.warn('sync pub key failed:',error.message);
         }catch(e){}
     }
@@ -978,13 +965,26 @@ async function ensureE2EKeys(){
         const{error}=await supabaseClient.from('profiles').update({public_key:pubStr}).eq('id',me.id);
         if(error){console.error('❌ save pub key failed:',error.message);return false;}
         me.public_key=pubStr;
-        console.log('✅ E2E: сгенерировал новый ключ, длина',pubStr.length);
+        e2eKeys={}; // ИНВАЛИДИРУЕМ ВСЕ ПРОИЗВОДНЫЕ КЛЮЧИ
+        console.log('✅ E2E: сгенерировал новый ключ, длина',pubStr.length,'кэш сброшен');
         return true;
     }catch(e){console.error('❌ E2E generation failed',e);return false;}
 }
 
+// === ИСПРАВЛЕННЫЙ getSharedKey — с проверкой фингерпринта ===
 async function getSharedKey(userId){
-    if(e2eKeys[userId])return e2eKeys[userId];
+    const cached = e2eKeys[userId];
+    if(cached && cached.pubFingerprint){
+        // Проверяем, не сменился ли public_key собеседника
+        const other = allUsers.find(u=>u.id===userId);
+        if(other && other.public_key === cached.pubFingerprint){
+            return cached.key;
+        }
+        // Ключ собеседника сменился — инвалидируем
+        delete e2eKeys[userId];
+        console.log('🔄 public_key собеседника изменился, пересчитываем shared key');
+    }
+
     const myPriv=await idbGet('priv_'+me.id);
     if(!myPriv){await ensureE2EKeys();return null;}
     let other=allUsers.find(u=>u.id===userId);
@@ -997,13 +997,14 @@ async function getSharedKey(userId){
     try{
         const theirPub=await crypto.subtle.importKey('jwk',JSON.parse(other.public_key),{name:'ECDH',namedCurve:'P-256'},false,[]);
         const shared=await crypto.subtle.deriveKey({name:'ECDH',public:theirPub},myPriv,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
-        e2eKeys[userId]=shared;
+        e2eKeys[userId]={key:shared,pubFingerprint:other.public_key};
         return shared;
     }catch(e){
         if(!warnedUsers.has(userId)){warnedUsers.add(userId);console.warn('❌ derive failed for',other.username,e.message);}
         return null;
     }
 }
+
 async function encryptText(text,userId){
     if(!text)return text;
     const key=await getSharedKey(userId);
@@ -1243,15 +1244,28 @@ async function enterMessenger(gen){
     if(window.keyCheckTimer)clearInterval(window.keyCheckTimer);
     window.keyCheckTimer=setInterval(async()=>{
         if(!me)return;
+        const before=JSON.stringify(allUsers.map(u=>({id:u.id,pk:u.public_key})));
         await fetchAllUsers();
-        if(currentChatUser && !currentChatUser.public_key){
-            const upd=allUsers.find(u=>u.id===currentChatUser.id);
-            if(upd && upd.public_key){
-                currentChatUser=upd;
-                if(document.querySelector('#chat-active:not(.hidden)')) await openChat(upd);
+        const after=JSON.stringify(allUsers.map(u=>({id:u.id,pk:u.public_key})));
+        if(before!==after){
+            // У кого-то появился/сменился public_key — инвалидируем кэш
+            for(const u of allUsers){
+                const c=e2eKeys[u.id];
+                if(c && c.pubFingerprint && c.pubFingerprint!==u.public_key){
+                    delete e2eKeys[u.id];
+                    console.log('🔄 auto-invalidate для',u.username);
+                }
+            }
+            if(currentChatUser){
+                const upd=allUsers.find(u=>u.id===currentChatUser.id);
+                if(upd && upd.public_key && upd.public_key!==currentChatUser.public_key){
+                    currentChatUser=upd;
+                    if(document.querySelector('#chat-active:not(.hidden)')) await openChat(upd);
+                    else updateChatHeader();
+                }
             }
         }
-    },30000);
+    },15000);
 }
 
 async function fetchAllUsers(){
@@ -1294,9 +1308,23 @@ function setupRealtime(){
             }else{
                 const i=allUsers.findIndex(u=>u.id===neu.id);
                 const prev=i>-1?allUsers[i]:null;
+
+                // === ИНВАЛИДАЦИЯ КЭША ПРИ СМЕНЕ public_key ===
+                if(prev && prev.public_key !== neu.public_key){
+                    delete e2eKeys[neu.id];
+                    console.log('🔄 public_key собеседника обновлён через realtime, кэш сброшен');
+                }
+
                 const changed=!prev||MEANINGFUL.some(k=>prev[k]!==neu[k]);
                 if(prev)allUsers[i]={...prev,...neu};else allUsers.push(neu);
-                if(currentChatUser&&currentChatUser.id===neu.id){currentChatUser=allUsers[i]||neu;updateChatHeader();}
+                if(currentChatUser&&currentChatUser.id===neu.id){
+                    currentChatUser=allUsers[i]||neu;
+                    updateChatHeader();
+                    if(prev && prev.public_key !== neu.public_key){
+                        // Перерисовываем открытый чат, чтобы расшифровались сообщения
+                        if(document.querySelector('#chat-active:not(.hidden)')) openChat(currentChatUser);
+                    }
+                }
                 if(changed)loadChatsList();
             }
             updateChatStatus();
@@ -2036,7 +2064,6 @@ function logout(){
     authFlowBusy=false;supabaseClient.auth.signOut();resetAppState();setAuthMode('login');showScreen('screen-auth');setView('chats');
 }
 
-// === ПРИВЯЗКИ ===
 bind('auth-btn',handleAuth);
 bind('forgot-link',forgotPassword);
 bind('verify-btn',verifyOtp);
@@ -2068,14 +2095,8 @@ bind('modal-close',closeProfileModal);
 bind('confirm-cancel',closeConfirmModal);
 bind('confirm-ok',executeConfirmAction);
 bind('img-viewer',closeImageViewer);
-
-// === КНОПКА ЦВЕТА (карандаш) ===
-bind('btn-color',e=>{ if(e) e.stopPropagation(); openColorModal(); });
-
-// === АВАТАРКА — загрузка фото ===
-bind('profile-avatar-trigger',e=>{ if(e) e.stopPropagation(); const f=$('fileInputAcc'); if(f) f.click(); });
-
-// === РАЗДЕЛЫ НАСТРОЕК ===
+bind('btn-color',e=>{if(e)e.stopPropagation();openColorModal();});
+bind('profile-avatar-trigger',e=>{if(e)e.stopPropagation();const f=$('fileInputAcc');if(f)f.click();});
 bind('row-appearance',()=>openSubView('sub-appearance'));
 bind('row-privacy',()=>openSubView('sub-privacy'));
 bind('row-whocanwrite',()=>openSubView('sub-whocanwrite'));
